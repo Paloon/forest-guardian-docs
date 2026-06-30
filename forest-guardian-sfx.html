@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forest Guardian — SFX รายการละเอียด</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'IBM Plex Sans Thai', sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 40px 20px;
+  }
+  .container { max-width: 1000px; margin: 0 auto; }
+
+  .header { text-align: center; margin-bottom: 36px; }
+  .header h1 {
+    font-size: 30px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #f59e0b, #f97316);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .header p { color: #94a3b8; margin-top: 6px; font-size: 14px; }
+
+  .summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .summary-card {
+    background: #1e293b;
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid #334155;
+    text-align: center;
+  }
+  .summary-card .num { font-size: 32px; font-weight: 700; }
+  .summary-card .label { font-size: 12px; color: #94a3b8; margin-top: 2px; }
+  .s-sfx .num { color: #3b82f6; }
+  .s-bgm .num { color: #10b981; }
+  .s-amb .num { color: #f59e0b; }
+
+  .category {
+    background: #1e293b;
+    border-radius: 12px;
+    border: 1px solid #334155;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .cat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    cursor: default;
+    border-bottom: 1px solid #334155;
+  }
+  .cat-header h3 { font-size: 16px; font-weight: 600; }
+  .cat-header .count {
+    font-size: 12px;
+    color: #94a3b8;
+    background: #0f172a;
+    padding: 2px 10px;
+    border-radius: 8px;
+  }
+  .cat-body { padding: 0 20px 14px; }
+  .cat-body table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+  .cat-body th {
+    text-align: left;
+    font-size: 11px;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 6px 8px;
+    border-bottom: 1px solid #334155;
+  }
+  .cat-body td {
+    padding: 8px;
+    font-size: 13px;
+    border-bottom: 1px solid rgba(51,65,85,0.4);
+    vertical-align: top;
+  }
+  .cat-body tr:last-child td { border-bottom: none; }
+  .cat-body .name { font-weight: 500; color: #e2e8f0; }
+  .cat-body .src { color: #cbd5e1; }
+  .cat-body .desc { color: #94a3b8; font-size: 12px; }
+  .tag-free { 
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 1px 8px;
+    border-radius: 6px;
+    background: rgba(16,185,129,0.15);
+    color: #6ee7b7;
+  }
+  .tag-fmod {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 1px 8px;
+    border-radius: 6px;
+    background: rgba(59,130,246,0.15);
+    color: #93c5fd;
+  }
+  .tag-design {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 1px 8px;
+    border-radius: 6px;
+    background: rgba(245,158,11,0.15);
+    color: #fcd34d;
+  }
+  .tag-synth {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 1px 8px;
+    border-radius: 6px;
+    background: rgba(168,85,247,0.15);
+    color: #d8b4fe;
+  }
+
+  .note-box {
+    background: rgba(59,130,246,0.08);
+    border: 1px solid rgba(59,130,246,0.2);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-top: 20px;
+  }
+  .note-box h4 { color: #93c5fd; font-size: 14px; margin-bottom: 6px; }
+  .note-box li { color: #94a3b8; font-size: 13px; line-height: 1.8; padding-left: 4px; }
+
+  @media (max-width: 600px) {
+    .summary { grid-template-columns: 1fr; }
+    .cat-body td { font-size: 12px; padding: 6px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <h1>🔊 Forest Guardian — SFX รายการละเอียด</h1>
+  <p>Sound Effects + BGM + Ambient — ฉบับวางแผนครบจบในที่เดียว</p>
+</div>
+
+<div class="summary">
+  <div class="summary-card s-sfx">
+    <div class="num">22</div>
+    <div class="label">🎯 Sound Effects</div>
+  </div>
+  <div class="summary-card s-bgm">
+    <div class="num">3</div>
+    <div class="label">🎵 BGM Tracks</div>
+  </div>
+  <div class="summary-card s-amb">
+    <div class="num">5</div>
+    <div class="label">🌿 Ambient Sounds</div>
+  </div>
+</div>
+
+<!-- CAT 1: Player Actions -->
+<div class="category">
+  <div class="cat-header">
+    <h3>🎮 Player Actions</h3>
+    <span class="count">7 sounds</span>
+  </div>
+  <div class="cat-body">
+    <table>
+      <tr><th>ชื่อ</th><th>แหล่ง</th><th>รายละเอียด</th></tr>
+      <tr>
+        <td class="name">Footstep (Grass)</td>
+        <td><span class="tag-free">royalty-free</span></td>
+        <td class="desc">เดินบนหญ้า เบาๆ ซ้ำ loop ได้, 2-3 variation</td>
+      </tr>
+      <tr>
+        <td class="name">Footstep (Dirt/Rock)</td>
+        <td><span class="tag-free">royalty-free</span></td>
+        <td class="desc">เดินบนดิน/หิน เสียงหนักกว่า, 2-3 variation</td>
+      </tr>
+      <tr>
+        <td class="name">Footstep (Water)</td>
+        <td><span class="tag-free">royalty-free</span></td>
+        <td class="desc">เดินลุยน้ำตื้น ริมลำธาร, 2 variation</td>
+      </tr>
+      <tr>
+        <td class="name">Scan (กด F)</td>
+        <td><span class="tag-fmod">ออกแบบเอง</span></td>
+        <td class="desc">เสียง electronic ping สั้น — สะท้อนว่าสแกนเจอ, high-pitch ≈ 0.3s</td>
+      </tr>
+      <tr>
+        <td class="name">Scan Highlight Loop</td>
+        <td><span class="tag-fmod">ออกแบบเอง</span></td>
+        <td class="desc">เสียง hum ขณะที่ของถูกไฮไลท์, loop เบาๆ</td>
+      </tr>
+      <tr>
+        <td class="name">Pickup (กด E)</td>
+        <td><span class="tag-fmod">ออกแบบเอง</span></td>
+        <td class="desc">เสียงยกของ — เสียงเสียดสี/แรงโน้มถ่วงสั้น, metallicหรือplasticตามชนิด</td>
+      </tr>
+      <tr>
+        <td class="name">Drop / Put Down</td>
+        <td><span class="tag-fmod">ออกแบบเอง</span></td>
+        <td class="desc">วางของลง — เสียงกระแทกเบาๆ (surface-dependent)</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- CAT 2: Disposal / Interaction -->
+<div class="category">
+  <div class="cat-header">
+    <h3>♻️ Disposal &amp; Interaction</h3>
+    <span class="count">6 sounds</span>
+  </div>
+  <div class="cat-body">
+    <table>
+      <tr><th>ชื่อ</th><th>แหล่ง</th><th>รายละเอียด</th></tr>
+      <tr>
+        <td class="name">Disposal Correct ✅</td>
+        <td><span class="tag-fmod">ออกแบบเอง</span></td>
+        <td class="desc">ทิ้งถูก — เสียง success chime แบบรีไซเคิล/เครื่องจักร, warm tone, ≈0.5-0.8s</td>
+      </tr>
+      <tr>
+        <td class="name">Disposal Wrong ❌</td>
+        <td><span class="tag-fmod">ออกแบบเอง</span></td>
+        <td class="desc">ทิ้งผิด — เสียง buzz/error + metallic clash, low pitch, ≈0.4-0.6s</td>
+      </tr>
+      <tr>
+        <td class="name">Disposal Machine Run</td>
+        <td><span class="tag-design">sound design</span></td>
+        <td class="desc">เครื่องรีไซเคิลทำงาน — hydraulic/gear sound, loop ขณะanimation, ≈1-2s</td>
+      </tr>
+      <tr>
+        <td class="name">Fire Burn (เตาเผา)</td>
+        <td><span class="tag-free">royalty-free</span></td>
+        <td class="desc">ไฟไหม้ — crackling + whoosh, loop ได้</td>
+      </tr>
+      <tr>
+        <td class="name">Water Splash (ทิ้งน้ำ)</td>
+        <td><span class="tag-free">royalty-free</span></td>
+        <td class="desc">ของตกน้ำ — splash heavy + sinking, ≈1-1.5s</td>
+      </tr>
+      <tr>
+        <td class="name">Trash Can Lid</td>
+        <td><span class="tag-free">royalty-free</span></td>
+        <td class="desc">ฝาถังเปิด/ปิด — metallic clang เบาๆ</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- CAT 3: UI / HUD -->
+<div class="category">
+  <div class="cat-header">
+    <h3>🖥️ UI / HUD</h3>
+    <span class="count">5 sounds</span>
+  </div>
+  <div class="cat-body">
+    <table>
+      <tr><th>ชื่อ</th><th>แหล่ง</th><th>รายละเอียด</th></tr>
+      <tr>
+        <td class="name">Hotbar Switch</td>
+        <td><span class="tag-synth">synthesize</span></td>
+        <td class="desc">กดเลข 1-6 สลับช่อง — click/tick เบา, ≈0.1s</td>
+      </tr>
+      <tr>
+        <td class="name">Knowledge Popup</td>
+        <td><span class="tag-synth">synthesize</span></td>
+        <td class="desc">เปิดความรู้ — paper flip หรือ digital whoosh, ≈0.2-0.3s</td>
+      </tr>
+      <tr>
+        <td class="name">Shop Buy</td>
+        <td><span class="tag-fmod">ออกแบบเอง</span></td>
+        <td class="desc">ซื้อของสำเร็จ — coin jingle + success chime, ≈0.5s</td>
+      </tr>
+      <tr>
+        <td class="name">Coin Earned</td>
+        <td><span class="tag-free">royalty-free</span></td>
+        <td class="desc">ได้เงิน — เหรียญ 2-3 อันกระทบกัน, ≈0.3-0.5s</td>
+      </tr>
+      <tr>
+        <td class="name">HP Lose / Damage</td>
+        <td><span class="tag-fmod">ออกแบบเอง</span></td>
+        <td class="desc">เสียเลือด — heartbeat + low thud, ≈0.5s</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- CAT 4: Environment / Ambient -->
+<div class="category">
+  <div class="cat-header">
+    <h3>🌲 Environment / Ambient</h3>
+    <span class="count">4 sounds</span>
+  </div>
+  <div class="cat-body">
+    <table>
+      <tr><th>ชื่อ</th><th>แหล่ง</th><th>รายละเอียด</th></tr>
+      <tr>
+        <td class="name">Forest Ambient (Polluted)</td>
+        <td><span class="tag-free">royalty-free</span></td>
+        <td class="desc">ลมหน่วง, ไร้เสียงสัตว์, เสียงกังวานอึมอัด — สร้างความอึดอัด</td>
+      </tr>
+      <tr>
+        <td class="name">Forest Ambient (Recovering)</td>
+        <td><span class="tag-free">royalty-free</span></td>
+        <td class="desc">ลม + นกเริ่มกลับมา + แมลงจางๆ — เริ่มมีชีวิต</td>
+      </tr>
+      <tr>
+        <td class="name">Forest Ambient (Thriving)</td>
+        <td><span class="tag-free">royalty-free</span></td>
+        <td class="desc">นก+แมลง+น้ำไหล+ลมเย็น — ป่าสมบูรณ์, warm &amp; lively</td>
+      </tr>
+      <tr>
+        <td class="name">Wind Gust (Random)</td>
+        <td><span class="tag-free">royalty-free</span></td>
+        <td class="desc">ลมกระโชกเป็นครั้งคราว — spacial, random interval</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- CAT 5: Game State -->
+<div class="category">
+  <div class="cat-header">
+    <h3>🏁 Game State / Menus</h3>
+    <span class="count">5 sounds</span>
+  </div>
+  <div class="cat-body">
+    <table>
+      <tr><th>ชื่อ</th><th>แหล่ง</th><th>รายละเอียด</th></tr>
+      <tr>
+        <td class="name">Main Menu Click</td>
+        <td><span class="tag-synth">synthesize</span></td>
+        <td class="desc">กดปุ่มเมนู — click soft, ≈0.1s</td>
+      </tr>
+      <tr>
+        <td class="name">Main Menu Hover</td>
+        <td><span class="tag-synth">synthesize</span></td>
+        <td class="desc">hover ปุ่ม — pop/tick เบา, ≈0.05s</td>
+      </tr>
+      <tr>
+        <td class="name">Game Over</td>
+        <td><span class="tag-fmod">ออกแบบเอง</span></td>
+        <td class="desc">HP=0 — เสียงหัวใจหยุด + low rumble fade + click silence, ≈1.5-2s</td>
+      </tr>
+      <tr>
+        <td class="name">Game Clear 🏆</td>
+        <td><span class="tag-fmod">ออกแบบเอง</span></td>
+        <td class="desc">ชนะ — ascending chime + sparkle + symphonic hit, ≈2-3s</td>
+      </tr>
+      <tr>
+        <td class="name">Warning / Danger</td>
+        <td><span class="tag-synth">synthesize</span></td>
+        <td class="desc">เตือน — alarm beep 2-3 ครั้ง, low-mid frequency, ≈1s</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- BGM -->
+<div class="category">
+  <div class="cat-header">
+    <h3>🎵 BGM (Background Music)</h3>
+    <span class="count">3 tracks</span>
+  </div>
+  <div class="cat-body">
+    <table>
+      <tr><th>ชื่อ</th><th>แหล่ง</th><th>รายละเอียด</th></tr>
+      <tr>
+        <td class="name">BGM — Polluted</td>
+        <td><span class="tag-free">royalty-free</span></td>
+        <td class="desc">ดนตรีทึมๆ ลึกลับ, minor key, drone พื้นหลัง, tempo ช้า → สร้างความกดดัน</td>
+      </tr>
+      <tr>
+        <td class="name">BGM — Recovering</td>
+        <td><span class="tag-free">royalty-free</span></td>
+        <td class="desc">ดนตรีกลางๆ เริ่ม optimistic, major key นิดๆ, tempo medium</td>
+      </tr>
+      <tr>
+        <td class="name">BGM — Thriving</td>
+        <td><span class="tag-free">royalty-free</span></td>
+        <td class="desc">ดนตรีสดใส, major key, warm, มีเครื่องดนตรีธรรมชาติ (กีตาร์/พิณ/ขลุ่ย), มีชีวิต</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- Notes -->
+<div class="note-box">
+  <h4>📌 หมายเหตุสำคัญ</h4>
+  <ul style="padding-left: 18px;">
+    <li><strong>รวมทั้งหมด 30 เสียง</strong> — SFX 22 + BGM 3 + Ambient 4 + Menu 1 (ถ้านับ Main Menu Click ซ้ำ)</li>
+    <li><strong>🎯 จัดลำดับความสำคัญ:</strong> Footstep (grass), Scan, Pickup, Disposal Correct/Wrong, Game Over, Clear — <strong>10 เสียงแรกที่เกมต้องการ</strong></li>
+    <li><strong>🔗 แหล่งหา royalty-free:</strong> freesound.org, pixabay.com/music, mixkit.co, zapsplat.com</li>
+    <li><strong>🎛️ สร้างเอง:</strong> sfxr.me หรือ jsfxr สำหรับ synthesize (เหมาะกับ UI click/tick)</li>
+    <li><strong>🎚️ FMOD/Unity:</strong> ใช้ Audio Mixer groups แยก (SFX/BGM/Ambient) + ปรับ volume/slider settings</li>
+    <li><strong>⚠️ BGM:</strong> ควรหา royalty-free tracks 3 tracks ที่ transition กันได้ (เหมือน gradual change)</li>
+  </ul>
+</div>
+
+<p style="text-align: center; color: #475569; font-size: 12px; margin-top: 30px;">
+  Forest Guardian 🔊 SFX Reference — 30 มิ.ย. 2026
+</p>
+
+</div>
+</body>
+</html>

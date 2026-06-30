@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forest Guardian — แผนพัฒนา 12 สัปดาห์</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap');
+  
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'IBM Plex Sans Thai', sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 40px 20px;
+    min-height: 100vh;
+  }
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  /* Header */
+  .header {
+    margin-bottom: 40px;
+    text-align: center;
+  }
+  .header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #22d3ee, #10b981);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .header p {
+    color: #94a3b8;
+    margin-top: 8px;
+    font-size: 15px;
+  }
+  .deadline-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #dc2626;
+    color: white;
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 14px;
+    margin-top: 12px;
+  }
+
+  /* Stats row */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .stat-card {
+    background: #1e293b;
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+    border: 1px solid #334155;
+  }
+  .stat-card .num {
+    font-size: 28px;
+    font-weight: 700;
+  }
+  .stat-card .label {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-top: 4px;
+  }
+  .stat-card.done .num { color: #10b981; }
+  .stat-card.pending .num { color: #f59e0b; }
+  .stat-card.wip .num { color: #3b82f6; }
+  .stat-card.danger .num { color: #ef4444; }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    padding-left: 40px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 18px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #334155;
+  }
+
+  .week-card {
+    position: relative;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    transition: all 0.2s;
+  }
+  .week-card:hover {
+    border-color: #475569;
+    transform: translateX(2px);
+  }
+
+  .week-card .dot {
+    position: absolute;
+    left: -31px;
+    top: 20px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid #475569;
+    background: #1e293b;
+  }
+  .week-card.done .dot { 
+    background: #10b981; 
+    border-color: #10b981;
+    box-shadow: 0 0 8px rgba(16,185,129,0.4);
+  }
+  .week-card.half .dot { 
+    background: #f59e0b; 
+    border-color: #f59e0b;
+    box-shadow: 0 0 8px rgba(245,158,11,0.4);
+  }
+  .week-card.now .dot { 
+    background: #3b82f6; 
+    border-color: #3b82f6;
+    box-shadow: 0 0 8px rgba(59,130,246,0.4);
+  }
+  .week-card.now {
+    border-color: #3b82f6;
+    box-shadow: 0 0 16px rgba(59,130,246,0.15);
+  }
+
+  .week-card .week-num {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .week-card.done .week-num { color: #10b981; }
+  .week-card.half .week-num { color: #f59e0b; }
+  .week-card.now .week-num { color: #3b82f6; }
+
+  .week-card h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .week-card .tasks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .task-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 6px;
+    background: #334155;
+    color: #cbd5e1;
+  }
+  .task-tag.done { background: rgba(16,185,129,0.15); color: #6ee7b7; }
+  .task-tag.mid  { background: rgba(245,158,11,0.15); color: #fcd34d; }
+  .task-tag.miss { background: rgba(239,68,68,0.15); color: #fca5a5; }
+
+  .week-card .status-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 10px;
+    margin-top: 8px;
+  }
+  .status-done { background: rgba(16,185,129,0.2); color: #6ee7b7; }
+  .status-half { background: rgba(245,158,11,0.2); color: #fcd34d; }
+  .status-now  { background: rgba(59,130,246,0.2); color: #93c5fd; }
+  .status-miss { background: rgba(239,68,68,0.2); color: #fca5a5; }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #94a3b8;
+  }
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+  .legend-dot.green { background: #10b981; }
+  .legend-dot.yellow { background: #f59e0b; }
+  .legend-dot.blue { background: #3b82f6; }
+  .legend-dot.gray { background: #475569; }
+
+  /* Now marker */
+  .now-marker {
+    position: absolute;
+    left: -8px;
+    top: 0;
+    transform: translateX(-50%);
+    background: #3b82f6;
+    color: white;
+    padding: 2px 10px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  /* Deadline row */
+  .deadline-row {
+    background: linear-gradient(135deg, rgba(220,38,38,0.15), rgba(220,38,38,0.05));
+    border: 1px solid rgba(220,38,38,0.3);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin: 20px 0;
+    text-align: center;
+  }
+  .deadline-row h3 {
+    color: #fca5a5;
+    font-size: 18px;
+  }
+  .deadline-row p {
+    color: #f87171;
+    font-size: 14px;
+    margin-top: 4px;
+  }
+  .countdown {
+    font-size: 36px;
+    font-weight: 700;
+    color: #ef4444;
+    margin-top: 8px;
+  }
+
+  /* Workflow */
+  .workflow {
+    margin: 28px 0;
+    padding: 20px;
+    background: #1e293b;
+    border-radius: 12px;
+    border: 1px solid #334155;
+  }
+  .workflow h3 {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+  .workflow-steps {
+    display: grid;
+    gap: 8px;
+  }
+  .workflow-step {
+    display: flex;
+    align-items: start;
+    gap: 12px;
+    padding: 10px 14px;
+    background: #0f172a;
+    border-radius: 8px;
+  }
+  .workflow-step .step-num {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .step-ok .step-num { background: rgba(16,185,129,0.2); color: #10b981; }
+  .step-now .step-num { background: rgba(59,130,246,0.2); color: #3b82f6; }
+  .step-miss .step-num { background: rgba(239,68,68,0.2); color: #ef4444; }
+  .step-next .step-num { background: rgba(245,158,11,0.2); color: #f59e0b; }
+
+  .workflow-step .step-content { flex: 1; }
+  .workflow-step .step-title { font-weight: 600; font-size: 14px; }
+  .workflow-step .step-desc { font-size: 12px; color: #94a3b8; margin-top: 2px; }
+
+  .critical-path {
+    margin: 28px 0;
+    padding: 20px;
+    background: rgba(220,38,38,0.08);
+    border-radius: 12px;
+    border: 1px solid rgba(220,38,38,0.2);
+  }
+  .critical-path h3 {
+    color: #fca5a5;
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+  .critical-path p, .critical-path li {
+    font-size: 13px;
+    color: #fca5a5;
+    line-height: 1.7;
+  }
+  .critical-path ul { padding-left: 18px; margin-top: 6px; }
+
+  @media (max-width: 600px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .timeline { padding-left: 30px; }
+    .week-card .dot { left: -23px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <h1>🌲 Forest Guardian</h1>
+  <p>NSC 2026 — แผนพัฒนา 12 สัปดาห์ ฉบับเห็นภาพ</p>
+  <div class="deadline-badge">⏰ Deadline: 17 กรกฎาคม 2026</div>
+</div>
+
+<!-- Stats -->
+<div class="stats">
+  <div class="stat-card done">
+    <div class="num">4</div>
+    <div class="label">✅ เสร็จแล้ว</div>
+  </div>
+  <div class="stat-card wip">
+    <div class="num">1</div>
+    <div class="label">🔄 กำลังทำ</div>
+  </div>
+  <div class="stat-card pending">
+    <div class="num">7</div>
+    <div class="label">⏳ ยังไม่เริ่ม</div>
+  </div>
+  <div class="stat-card danger">
+    <div class="num">17</div>
+    <div class="label">⚠️ วันเหลือ</div>
+  </div>
+</div>
+
+<!-- Legend -->
+<div class="legend">
+  <span class="legend-item"><span class="legend-dot green"></span> เสร็จ</span>
+  <span class="legend-item"><span class="legend-dot yellow"></span> ทำ了一半</span>
+  <span class="legend-item"><span class="legend-dot blue"></span> สัปดาห์นี้</span>
+  <span class="legend-item"><span class="legend-dot gray"></span> ยังไม่ถึง</span>
+</div>
+
+<!-- Timeline -->
+<div class="timeline">
+
+  <div class="week-card done">
+    <span class="dot"></span>
+    <div class="week-num">WEEK 1 · Foundation</div>
+    <h3>ตั้งโปรเจกต์ + เคลื่อนที่</h3>
+    <div class="tasks">
+      <span class="task-tag done">✅ Unity 3D Core (URP)</span>
+      <span class="task-tag done">✅ FPSController</span>
+      <span class="task-tag miss">❌ Terrain 200x200</span>
+      <span class="task-tag miss">❌ Git Push</span>
+    </div>
+    <span class="status-label status-done">✅ เสร็จ</span>
+  </div>
+
+  <div class="week-card done">
+    <span class="dot"></span>
+    <div class="week-num">WEEK 2 · Interaction</div>
+    <h3>สแกน + ยกของ</h3>
+    <div class="tasks">
+      <span class="task-tag done">✅ Crosshair</span>
+      <span class="task-tag done">✅ ScanSystem (กด F)</span>
+      <span class="task-tag done">✅ PlayerCarry (ยกตามกล้อง)</span>
+    </div>
+    <span class="status-label status-done">✅ เสร็จ</span>
+  </div>
+
+  <div class="week-card done">
+    <span class="dot"></span>
+    <div class="week-num">WEEK 3 · E-waste 15 ชนิด</div>
+    <h3>ScriptableObject + ข้อมูลขยะ</h3>
+    <div class="tasks">
+      <span class="task-tag done">✅ EwasteData.cs</span>
+      <span class="task-tag done">✅ 15 ScriptableObjects (6 WEEE Cat)</span>
+      <span class="task-tag miss">❌ 3D Models (placeholder)</span>
+      <span class="task-tag miss">❌ Spawn System</span>
+    </div>
+    <span class="status-label status-half">🟡 ทำครึ่งเดียว</span>
+  </div>
+
+  <div class="week-card half">
+    <span class="dot"></span>
+    <div class="week-num">WEEK 4 · Hotbar + Disposal</div>
+    <h3>Hotbar 6 slots + จุดทิ้งขยะ</h3>
+    <div class="tasks">
+      <span class="task-tag done">✅ HotbarManager</span>
+      <span class="task-tag done">✅ HotbarUI</span>
+      <span class="task-tag done">✅ PlayerCarry</span>
+      <span class="task-tag miss">❌ Disposal Points 6 จุด</span>
+      <span class="task-tag miss">❌ Logic จับคู่ WEEE Cat</span>
+    </div>
+    <span class="status-label status-half">🟡 สคริปต์มา แต่ระบบยังไม่ต่อ</span>
+  </div>
+
+  <div class="week-card now">
+    <span class="dot"></span>
+    <div class="week-num" style="color:#3b82f6;">WEEK 5 · Pollution System</div>
+    <h3>มลพิษ + สภาพป่า</h3>
+    <div class="tasks">
+      <span class="task-tag miss">❌ Pollution Score</span>
+      <span class="task-tag miss">❌ 3 Forest Levels</span>
+      <span class="task-tag miss">❌ Post-processing (หมอกม่วง→ฟ้าใส)</span>
+      <span class="task-tag miss">❌ Particle FX</span>
+    </div>
+    <span class="status-label status-now">🔵 ยังไม่เริ่ม ⬅️ อยู่ตรงนี้</span>
+  </div>
+
+  <div class="week-card">
+    <span class="dot"></span>
+    <div class="week-num">WEEK 6 · HUD</div>
+    <h3>UI ทั้งหมด</h3>
+    <div class="tasks">
+      <span class="task-tag done">✅ KnowledgePopup</span>
+      <span class="task-tag done">✅ KnowledgeBook</span>
+      <span class="task-tag done">✅ KnowledgeManager</span>
+      <span class="task-tag miss">❌ HP Bar</span>
+      <span class="task-tag miss">❌ Wallet</span>
+      <span class="task-tag miss">❌ Pollution Bar</span>
+      <span class="task-tag miss">❌ Progress Counter</span>
+    </div>
+    <span class="status-label status-miss">❌ ระบบความรู้มาแล้ว แต่ HUD หลักยังไม่มี</span>
+  </div>
+
+  <div class="week-card">
+    <span class="dot"></span>
+    <div class="week-num">WEEK 7 · Shop</div>
+    <h3>ร้านค้า + ไอเทม</h3>
+    <div class="tasks">
+      <span class="task-tag miss">❌ Shop UI</span>
+      <span class="task-tag miss">❌ Items (หน้ากาก, ยา, ไฟฉาย ฯลฯ)</span>
+      <span class="task-tag miss">❌ Economy Logic</span>
+    </div>
+    <span class="status-label status-miss">❌ ยังไม่เริ่ม</span>
+  </div>
+
+  <div class="week-card">
+    <span class="dot"></span>
+    <div class="week-num">WEEK 8 · Win/Loss</div>
+    <h3>เงื่อนไขจบเกม</h3>
+    <div class="tasks">
+      <span class="task-tag miss">❌ Win (เก็บครบ + Pollution 0%)</span>
+      <span class="task-tag miss">❌ Lose (HP=0 / ทิ้งลงน้ำ)</span>
+      <span class="task-tag miss">❌ Game Over / Clear Screen</span>
+    </div>
+    <span class="status-label status-miss">❌ ยังไม่เริ่ม</span>
+  </div>
+
+  <div class="week-card">
+    <span class="dot"></span>
+    <div class="week-num">WEEK 9 · Audio + UI Polish</div>
+    <h3>เสียง + เมนู + ขัดเกลา</h3>
+    <div class="tasks">
+      <span class="task-tag miss">❌ BGM (3 เพลง)</span>
+      <span class="task-tag miss">❌ SFX</span>
+      <span class="task-tag miss">❌ Main Menu</span>
+      <span class="task-tag miss">❌ Settings</span>
+    </div>
+    <span class="status-label status-miss">❌ ยังไม่เริ่ม</span>
+  </div>
+
+  <div class="week-card">
+    <span class="dot"></span>
+    <div class="week-num">WEEK 10 · Level Design Final</div>
+    <h3>Map จริง + Model + Visual</h3>
+    <div class="tasks">
+      <span class="task-tag miss">❌ Terrain & โซน 5 โซน</span>
+      <span class="task-tag miss">❌ 3D Models Low-poly</span>
+      <span class="task-tag miss">❌ Lighting + Post-proc</span>
+    </div>
+    <span class="status-label status-miss">❌ ยังไม่เริ่ม</span>
+  </div>
+
+  <div class="week-card">
+    <span class="dot"></span>
+    <div class="week-num">WEEK 11 · Build Test</div>
+    <h3>Build + Optimization</h3>
+    <div class="tasks">
+      <span class="task-tag miss">❌ Build .exe</span>
+      <span class="task-tag miss">❌ FPS Test</span>
+      <span class="task-tag miss">❌ Bug Fix</span>
+    </div>
+    <span class="status-label status-miss">❌ ยังไม่เริ่ม</span>
+  </div>
+
+  <div class="week-card">
+    <span class="dot"></span>
+    <div class="week-num">WEEK 12 · Buffer</div>
+    <h3>ตกค้าง + Demo</h3>
+    <div class="tasks">
+      <span class="task-tag miss">❌ เก็บตกทุกอย่าง</span>
+      <span class="task-tag miss">❌ Build Final</span>
+      <span class="task-tag miss">❌ Clip Demo</span>
+    </div>
+    <span class="status-label status-miss">❌ ยังไม่เริ่ม</span>
+  </div>
+
+</div>
+
+<!-- Critical Path -->
+<div class="critical-path">
+  <h3>🚨 Critical Path — ต้องทำตามลำดับนี้</h3>
+  <p>ถ้าแกนหลักพวกนี้ไม่เสร็จ เกมเล่นไม่ได้แน่:</p>
+  <ol>
+    <li><strong>Scene หลัก + Terrain</strong> — ยังไม่มี game scene จริง</li>
+    <li><strong>Disposal System</strong> — Logic จับคู่ WEEE Cat + จุดทิ้ง 6 จุด</li>
+    <li><strong>Pollution System</strong> — Pollution Score + Visual Feedback</li>
+    <li><strong>HUD</strong> — HP, Wallet, Pollution Bar (ให้ผู้เล่นรู้สถานะ)</li>
+    <li><strong>Win/Loss</strong> — เกมต้องจบได้</li>
+  </ol>
+  <p style="margin-top: 12px; color: #f87171;">แผนเดิม 12 อาทิตย์ → เหลือ 17 วัน ถ้าจะทันต้องตัด scope หรือเร่งโค้ดพร้อมกันหลายส่วน</p>
+</div>
+
+<!-- Recommendation -->
+<div class="workflow">
+  <h3>💡 แนะนำ: จัดลำดับใหม่แบบเร่งด่วน</h3>
+  <div class="workflow-steps">
+    <div class="workflow-step step-now">
+      <span class="step-num">1</span>
+      <div class="step-content">
+        <div class="step-title">Scene หลัก + Terrain หยาบ + Spawn E-waste</div>
+        <div class="step-desc">สร้าง GameScene ใส่ Terrain 200x200, วาง E-waste prototype 15 จุด</div>
+      </div>
+    </div>
+    <div class="workflow-step step-miss">
+      <span class="step-num">2</span>
+      <div class="step-content">
+        <div class="step-title">Disposal Points + Pollution + HUD</div>
+        <div class="step-desc">6 จุดทิ้ง, Pollution Score, HP/Wallet/Pollution Bar — ระบบเกมหลักครบ</div>
+      </div>
+    </div>
+    <div class="workflow-step step-miss">
+      <span class="step-num">3</span>
+      <div class="step-content">
+        <div class="step-title">Win/Loss + Game Loop สมบูรณ์</div>
+        <div class="step-desc">เล่นจบได้ ชนะ/แพ้ — เกมเวอร์ชันเล่นได้</div>
+      </div>
+    </div>
+    <div class="workflow-step step-miss">
+      <span class="step-num">4</span>
+      <div class="step-content">
+        <div class="step-title">Shop + Audio + Model</div>
+        <div class="step-desc">ของเสริมที่ทำให้เกมสมบูรณ์ขึ้น แต่ไม่จำเป็นต่อ core loop</div>
+      </div>
+    </div>
+    <div class="workflow-step step-miss">
+      <span class="step-num">5</span>
+      <div class="step-content">
+        <div class="step-title">Build + ส่ง</div>
+        <div class="step-desc">.exe + เอกสาร + ส่งทัน 17 ก.ค.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="deadline-row">
+  <h3>⏰ Deadline 17 กรกฎาคม 2026</h3>
+  <p>เหลือเวลาในการพัฒนา</p>
+  <div class="countdown" id="countdown"></div>
+</div>
+
+<p style="text-align: center; color: #475569; font-size: 12px; margin-top: 40px;">
+  แผนตามที่วางไว้ 28 พ.ค. — อัปเดตล่าสุด 30 มิ.ย. 2026
+</p>
+
+</div>
+
+<script>
+function updateCountdown() {
+  const now = new Date();
+  const deadline = new Date('2026-07-17T23:59:59+07:00');
+  const diff = deadline - now;
+  
+  if (diff <= 0) { document.getElementById('countdown').textContent = '⏰ ถึงกำหนดส่งแล้ว!'; return; }
+  
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const mins = Math.floor((diff / (1000 * 60)) % 60);
+  
+  document.getElementById('countdown').textContent = `${days} วัน ${hours} ชม. ${mins} นาที`;
+}
+updateCountdown();
+setInterval(updateCountdown, 10000);
+</script>
+</body>
+</html>
