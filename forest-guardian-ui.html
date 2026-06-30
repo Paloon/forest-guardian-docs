@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forest Guardian — ส่วนประกอบ UI ในเกม</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'IBM Plex Sans Thai', sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 40px 20px;
+  }
+  .container { max-width: 1000px; margin: 0 auto; }
+
+  .header { text-align: center; margin-bottom: 32px; }
+  .header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #22d3ee, #10b981);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .header p { color: #94a3b8; font-size: 14px; margin-top: 4px; }
+
+  .screenshot-wrapper {
+    position: relative;
+    background: #1e293b;
+    border-radius: 16px;
+    border: 1px solid #334155;
+    overflow: hidden;
+    margin-bottom: 28px;
+  }
+  .screenshot-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .screenshot-wrapper .caption {
+    padding: 12px 16px;
+    font-size: 12px;
+    color: #64748b;
+    border-top: 1px solid #334155;
+    text-align: center;
+  }
+
+  .ui-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: #e2e8f0;
+  }
+
+  .annotations {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .annotation-card {
+    display: flex;
+    align-items: start;
+    gap: 14px;
+    background: #1e293b;
+    border-radius: 12px;
+    padding: 16px 18px;
+    border: 1px solid #334155;
+    transition: border-color 0.2s;
+  }
+  .annotation-card:hover { border-color: #22d3ee; }
+
+  .annotation-card .num {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .tag-green .num { background: rgba(16,185,129,0.2); color: #10b981; }
+  .tag-blue .num { background: rgba(59,130,246,0.2); color: #3b82f6; }
+  .tag-yellow .num { background: rgba(245,158,11,0.2); color: #f59e0b; }
+  .tag-purple .num { background: rgba(168,85,247,0.2); color: #a855f7; }
+  .tag-red .num { background: rgba(239,68,68,0.2); color: #ef4444; }
+
+  .annotation-card .content { flex: 1; }
+  .annotation-card .name { font-weight: 600; font-size: 15px; }
+  .annotation-card .now { font-size: 12px; color: #f59e0b; margin-top: 2px; }
+  .annotation-card .future { font-size: 12px; color: #94a3b8; margin-top: 4px; line-height: 1.6; }
+
+  .future-section {
+    background: rgba(34,211,238,0.05);
+    border: 1px solid rgba(34,211,238,0.15);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 32px;
+  }
+  .future-section h3 { color: #22d3ee; font-size: 15px; margin-bottom: 10px; }
+  .future-section .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+  }
+  .future-item {
+    background: #1e293b;
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #334155;
+  }
+  .future-item .icon { font-size: 24px; }
+  .future-item .label { font-size: 13px; font-weight: 500; margin-top: 4px; }
+  .future-item .desc { font-size: 11px; color: #64748b; margin-top: 2px; }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: #22d3ee;
+    text-decoration: none;
+    font-size: 13px;
+    margin-top: 16px;
+  }
+  .back-link:hover { text-decoration: underline; }
+
+  @media (max-width: 600px) {
+    .future-section .grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <h1>🎮 หน้าเกม Forest Guardian</h1>
+  <p>ส่วนประกอบ UI ฉบับ Prototype ปัจจุบัน → อนาคต</p>
+</div>
+
+<div class="screenshot-wrapper">
+  <img src="ui-prototype.png" alt="Forest Guardian UI Prototype">
+  <div class="caption">📸 ภาพปัจจุบัน — หน้าเกมเปล่าๆ ยังไม่มี E-waste, ระบบต่างๆ</div>
+</div>
+
+<div class="ui-title">🔍 ส่วนประกอบปัจจุบัน</div>
+
+<div class="annotations">
+
+  <div class="annotation-card tag-green">
+    <span class="num">1</span>
+    <div class="content">
+      <div class="name">🌍 3D Scene / Terrain</div>
+      <div class="now">✅ พื้นตาราง + ฟ้า + Cube prototype</div>
+      <div class="future">จะเปลี่ยนเป็นป่า 5 โซน (ป่าสน, ที่โล่ง, ริมน้ำ, เนินเขา, ถ้ำ) พร้อมต้นไม้ หิน ดอกไม้ Low-poly</div>
+    </div>
+  </div>
+
+  <div class="annotation-card tag-blue">
+    <span class="num">2</span>
+    <div class="content">
+      <div class="name">🎯 Crosshair (จุดเล็ง)</div>
+      <div class="now">✅ จุดขาวกลางจอ — ใช้สแกนหา E-waste</div>
+      <div class="future">เมื่อสแกนเจอ → เปลี่ยนสี + ไฮไลท์ตัว E-waste, มีเสียง Ping</div>
+    </div>
+  </div>
+
+  <div class="annotation-card tag-yellow">
+    <span class="num">3</span>
+    <div class="content">
+      <div class="name">📦 Hotbar 6 ช่อง (กด 1-6)</div>
+      <div class="now">✅ 6 slots ว่าง — กรอบเขียว, เลข 1-6</div>
+      <div class="future">เมื่อเก็บ E-waste → ของจะมาโผล่ในช่อง, กดเลขเพื่อเปลี่ยนของที่ถือ, มี icon + ชื่อ</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="future-section">
+  <h3>➕ เร็วๆ นี้ — UI ที่จะเพิ่ม</h3>
+  <div class="grid">
+    <div class="future-item">
+      <div class="icon">❤️</div>
+      <div class="label">HP Bar</div>
+      <div class="desc">แถบแดงมุมบนซ้าย — ลดเมื่ออยู่ในหมอก/ทิ้งผิด</div>
+    </div>
+    <div class="future-item">
+      <div class="icon">💰</div>
+      <div class="label">Wallet</div>
+      <div class="desc">ตัวเลขเงิน — ได้เมื่อขาย E-waste ถูกวิธี</div>
+    </div>
+    <div class="future-item">
+      <div class="icon">🌫️</div>
+      <div class="label">Pollution Bar</div>
+      <div class="desc">100% → 0% — ยิ่งเก็บขยะเยอะ ยิ่งลด</div>
+    </div>
+    <div class="future-item">
+      <div class="icon">📊</div>
+      <div class="label">Progress Counter</div>
+      <div class="desc">"เก็บไปแล้ว 3 / 15 ชิ้น" — บอกความคืบหน้า</div>
+    </div>
+    <div class="future-item">
+      <div class="icon">📖</div>
+      <div class="label">Knowledge Popup</div>
+      <div class="desc">ข้อมูล E-waste: สารพิษ, วิธีกําจัด, ระยะย่อยสลาย</div>
+    </div>
+    <div class="future-item">
+      <div class="icon">🏪</div>
+      <div class="label">Shop UI (กด B)</div>
+      <div class="desc">ซื้อหน้ากากกันพิษ, ยา HP, ไฟฉาย, ชุดป้องกัน</div>
+    </div>
+    <div class="future-item">
+      <div class="icon">♻️</div>
+      <div class="label">Disposal Points</div>
+      <div class="desc">6 จุดใน map — รับ E-waste ตามประเภท WEEE</div>
+    </div>
+    <div class="future-item">
+      <div class="icon">🏁</div>
+      <div class="label">Game Over / Clear</div>
+      <div class="desc">HP=0 → Game Over, เก็บครบ → Clear!</div>
+    </div>
+  </div>
+</div>
+
+<a href="index.html" class="back-link">← กลับไป Lobby</a>
+
+<p style="text-align: center; color: #475569; font-size: 12px; margin-top: 32px;">
+  Forest Guardian 🎮 UI Guide — 30 มิ.ย. 2026
+</p>
+
+</div>
+</body>
+</html>
