@@ -93,6 +93,16 @@
   .annotation-card .now { font-size: 12px; color: #f59e0b; margin-top: 2px; }
   .annotation-card .future { font-size: 12px; color: #94a3b8; margin-top: 4px; line-height: 1.6; }
 
+  .note-box {
+    background: rgba(245,158,11,0.08);
+    border: 1px solid rgba(245,158,11,0.2);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 28px;
+  }
+  .note-box h4 { color: #fcd34d; font-size: 14px; margin-bottom: 6px; }
+  .note-box p { color: #94a3b8; font-size: 13px; }
+
   .future-section {
     background: rgba(34,211,238,0.05);
     border: 1px solid rgba(34,211,238,0.15);
@@ -141,6 +151,7 @@
   <p>ส่วนประกอบ UI ฉบับ Prototype ปัจจุบัน → อนาคต</p>
 </div>
 
+<!-- === SCENE PROTOTYPE === -->
 <div class="screenshot-wrapper">
   <img src="ui-prototype.png" alt="Forest Guardian UI Prototype">
   <div class="caption">📸 ภาพปัจจุบัน — หน้าเกมเปล่าๆ ยังไม่มี E-waste, ระบบต่างๆ</div>
@@ -149,7 +160,6 @@
 <div class="ui-title">🔍 ส่วนประกอบปัจจุบัน</div>
 
 <div class="annotations">
-
   <div class="annotation-card tag-green">
     <span class="num">1</span>
     <div class="content">
@@ -176,9 +186,76 @@
       <div class="future">เมื่อเก็บ E-waste → ของจะมาโผล่ในช่อง, กดเลขเพื่อเปลี่ยนของที่ถือ, มี icon + ชื่อ</div>
     </div>
   </div>
-
 </div>
 
+<!-- === E-WASTE POPUP === -->
+<div class="screenshot-wrapper">
+  <img src="ui-ewaste-popup.png" alt="E-Waste Information Popup">
+  <div class="caption">📸 E-Waste Information Popup — กด F สแกนเจอขยะ</div>
+</div>
+
+<div class="ui-title">📖 Knowledge Popup (กด F สแกน)</div>
+
+<div class="annotations">
+  <div class="annotation-card tag-green">
+    <span class="num">1</span>
+    <div class="content">
+      <div class="name">📷 รูป E-waste</div>
+      <div class="now">✅ กล่องดำ placeholder</div>
+      <div class="future">จะเปลี่ยนเป็นรูป/icon ของ E-waste แต่ละชนิด</div>
+    </div>
+  </div>
+
+  <div class="annotation-card tag-red">
+    <span class="num">2</span>
+    <div class="content">
+      <div class="name">⚠️ ระดับอันตราย</div>
+      <div class="now">✅ ตัวเลข 4/5 + สีตามระดับ</div>
+      <div class="future">เพิ่มสัญลักษณ์ + สีพื้นหลังเปลี่ยนตามระดับ</div>
+    </div>
+  </div>
+
+  <div class="annotation-card tag-blue">
+    <span class="num">3</span>
+    <div class="content">
+      <div class="name">📄 ข้อมูล E-waste</div>
+      <div class="now">✅ ชื่อ + รายละเอียด + สารพิษ</div>
+      <div class="future">ข้อความสั้นลง, อ่านง่ายขึ้น, ใช้ bullet points แทนความเรียง</div>
+    </div>
+  </div>
+
+  <div class="annotation-card tag-yellow">
+    <span class="num">4</span>
+    <div class="content">
+      <div class="name">♻️ วิธีกําจัดที่ถูก</div>
+      <div class="now">✅ "นำส่งร้านรับซื้อของเก่า"</div>
+      <div class="future">เพิ่ม icon + สีเขียวแยกชัด</div>
+    </div>
+  </div>
+
+  <div class="annotation-card tag-red">
+    <span class="num">5</span>
+    <div class="content">
+      <div class="name">❌ วิธีกําจัดที่ผิด</div>
+      <div class="now">✅ "ทิ้งรวมกับขยะทั่วไป"</div>
+      <div class="future">เพิ่ม icon + สีแดงแยกชัด</div>
+    </div>
+  </div>
+</div>
+
+<div class="note-box">
+  <h4>✏️ ปรับปรุง: ข้อความเยอะเกินไป</h4>
+  <p>ตอนนี้ใน Popup มีข้อความบรรยายยาว — ควรตัดให้สั้นลง, ใช้ bullet points, หรือแบ่งเป็น tabs</p>
+  <p style="margin-top:6px;color:#64748b;">ตัวอย่างข้อความที่กระชับขึ้น:</p>
+  <ul style="margin-top:4px;padding-left:18px;font-size:13px;color:#94a3b8;">
+    <li><strong>ชื่อ:</strong> ไมโครเวฟ | <strong>อันตราย:</strong> ⚠️ 4/5</li>
+    <li><strong>สารพิษ:</strong> ตัวเก็บประจุ (คายประจุได้), แมกนีตรอน</li>
+    <li><strong>✅ กำจัดถูก:</strong> ส่งร้านรับซื้อของเก่า</li>
+    <li><strong>❌ กำจัดผิด:</strong> ทิ้งรวมขยะทั่วไป, ทิ้งน้ำ</li>
+  </ul>
+</div>
+
+<!-- === FUTURE UI === -->
 <div class="future-section">
   <h3>➕ เร็วๆ นี้ — UI ที่จะเพิ่ม</h3>
   <div class="grid">
